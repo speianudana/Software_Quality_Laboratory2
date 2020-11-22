@@ -1,22 +1,21 @@
 package stepDefinition;
 
 import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static stepDefinition.Utils.*;
 import static stepDefinition.Utils.getElement;
+import static stepDefinition.Utils.scroll;
 
 public class PricesOfProductsInTheCartSteps {
 
     @When("Scroll to clothes items area")
     public void scrollToProductsArea() {
         WebElement element = getElement(By.cssSelector("body > div.banner-bootom-w3-agileits > div > div.col-md-8.products-right > div"));
-        scrollPage(element);
+        scroll(element);
     }
 
     @And("Click on element \"Add to Cart\" button")

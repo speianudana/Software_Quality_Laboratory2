@@ -1,36 +1,53 @@
-//package stepDefinition;
-//
-//import cucumber.api.java.en.And;
-//import cucumber.api.java.en.Given;
-//import cucumber.api.java.en.Then;
-//import cucumber.api.java.en.When;
-//import org.openqa.selenium.By;
-//import org.openqa.selenium.WebElement;
-//
-//import static stepDefinition.Utils.*;
-//import static stepDefinition.Utils.getElement;
-//
-//public class FilterByPriceSteps {
-//    @Given("Open Men's clothes page")
-//    public void openMensClothesPage() {
-//        navigate("https://loving-hermann-e2094b.netlify.app/mens.html");
-//    }
-//
-//    @When("Scroll to products area")
-//    public void scrollToProductsArea() {
-//        WebElement element = getElement(By.cssSelector("body > div.banner-bootom-w3-agileits > div > div.col-md-8.products-right > div"));
-//        scrollPage(element);
-//    }
-//
-//    @And("Click on element ADD TO CART button")
-//    public void clickAddToCartButton() {
-//        WebElement element1 = getElement(By.xpath("/html/body/div[7]/div/div[4]/div[1]/div/div[2]/div[2]/form/fieldset/input[10]"));
-//        element1.submit();
-//    }
-//
-//    @Then("Delete button is clickable")
-//    public void checkOverlapping() {
-//        WebElement button = getElement(By.cssSelector("#PPMiniCart > form > ul > li.minicart-item.minicart-item-changed > div.minicart-details-remove > button"));
-//        button.click();
-//    }
-//}
+package stepDefinition;
+
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static stepDefinition.Utils.getElement;
+import static stepDefinition.Utils.moveSlider;
+
+public class FilterByPriceSteps {
+
+
+    @When("Move slider")
+    public void setPricesOnSlider() {
+        WebElement slider1 = getElement(By.xpath("//*[@id=\"slider-range\"]/a[1]"));
+        WebElement slider2 = getElement(By.xpath("//*[@id=\"slider-range\"]/a[2]"));
+        moveSlider(slider1, slider2);
+    }
+
+
+    @Then("Are displayed only filtered products")
+    public void checkDisplayedProducts() {
+        int[] list = {1, 2, 7, 9, 11};
+        List<Double> prices = new ArrayList<Double>();
+        for (int value : list) {
+            WebElement productItem = getElement(By.xpath("/html/body/div[7]/div/div[4]/div[" + value + "]"));
+            System.out.println("List[i]" + value);
+            String price = getElement(By.xpath("  /html/body/div[7]/div/div[4]/div[" + value + "]/div/div[2]/div[1]/span")).getText();
+            System.out.println("Price" + price);
+            String newPrice = price.substring(1, price.length() - 1);
+            Double priceDouble = Double.parseDouble(newPrice);
+            prices.add(priceDouble);
+            System.out.println(priceDouble);
+        }
+
+        Assert.assertTrue(checkPrices(prices));
+
+    }
+
+    private boolean checkPrices(List<Double> prices) {
+        for (Double price : prices) {
+            if (!(price >= 88 && price <= 311)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

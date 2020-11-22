@@ -19,7 +19,7 @@ public class CartPopUpSteps {
     @When("Scroll to products area")
     public void scrollToProductsArea() {
         WebElement element = getElement(By.cssSelector("body > div.banner-bootom-w3-agileits > div > div.col-md-8.products-right > div"));
-        scrollPage(element);
+        scroll(element);
     }
 
     @And("Click on element ADD TO CART button")

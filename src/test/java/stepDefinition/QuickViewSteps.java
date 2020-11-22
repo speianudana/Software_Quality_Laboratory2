@@ -13,7 +13,7 @@ public class QuickViewSteps {
     @When("Scroll to men's clothes items area")
     public void scrollToProductsArea() {
         WebElement element = getElement(By.cssSelector("body > div.banner-bootom-w3-agileits > div > div.col-md-8.products-right > div"));
-        scrollPage(element);
+        scroll(element);
     }
 
 

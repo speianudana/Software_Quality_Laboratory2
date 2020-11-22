@@ -8,9 +8,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 
-import java.util.concurrent.TimeUnit;
 
 public class Utils {
     private static WebDriver driver;
@@ -35,21 +35,27 @@ public class Utils {
         return driver.findElement(selector);
     }
 
+
     public static Object executeScript(String script, WebElement el) {
         return ((JavascriptExecutor) driver).executeScript(script, el);
     }
 
-    public static void scrollPage(WebElement element) {
+    public static void scroll(WebElement element) {
         executeScript("arguments[0].scrollIntoView(true);", element);
     }
 
-    public static void clickElement(By selector) {
-        getElement(selector).click();
-    }
 
     public static void moveToProductPage(WebElement image) {
         Actions action = new Actions(driver);
         action.moveToElement(image).perform();
-//        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    }
+
+    public static void moveSlider(WebElement slider1, WebElement slider2) {
+        Actions move = new Actions(driver);
+        Action action1 = move.dragAndDropBy(slider1, 5, 0).build();
+        Action action2 = move.dragAndDropBy(slider2, -200, 0).build();//88-311 dollars
+        action1.perform();
+        action2.perform();
+
     }
 }
